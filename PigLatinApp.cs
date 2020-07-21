@@ -137,7 +137,13 @@ namespace DB4_PigLatin
                 {
                     //found a vowel, exit the loop
                     if (vowels.Contains(letters[index]))
-                        break;
+                        if((letters[index] == 'u' || letters[index] == 'U') && (addToEnd.ToArray()[^1] == 'q' || addToEnd.ToArray()[^1] == 'Q'))
+                        {
+                            addToEnd.Enqueue(letters[index]);
+                            letters[index] = ' ';
+                        }
+                        else
+                            break;
                     else
                     {
                         //not a vowel, add it to the end, and replace with a space at the beginning.
