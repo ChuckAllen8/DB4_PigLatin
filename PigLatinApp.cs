@@ -7,6 +7,7 @@ namespace DB4_PigLatin
 {
     public class PigLatinApp
     {
+        private readonly List<char> vowels, notConverting;
         private enum Case
         {
             Title,
@@ -15,37 +16,18 @@ namespace DB4_PigLatin
             Upper
         }
 
-        private readonly List<char> vowels;
-        private readonly List<char> notConverting;
-
         public PigLatinApp()
         {
             vowels = new List<char>()
             {
-                'a',
-                'e',
-                'i',
-                'o',
-                'u',
-                'A',
-                'E',
-                'I',
-                'O',
-                'U'
+                'a', 'e', 'i', 'o', 'u',
+                'A', 'E', 'I', 'O', 'U'
             };
 
             notConverting = new List<char>()
             {
-                '@',
-                '$',
-                '#',
-                '{',
-                '}',
-                '_',
-                '=',
-                '+',
-                '(',
-                ')'
+                '@', '$', '#', '{', '}',
+                '_', '=', '+', '(', ')'
             };
         }
 
@@ -59,14 +41,10 @@ namespace DB4_PigLatin
                 string word = Console.ReadLine();
                 Console.WriteLine();
 
-                if(IsFileAddress(word))
-                {
+                if(File.Exists(word))
                     DisplayFile(word);
-                }
                 else
-                {
                     Console.WriteLine(ConvertLine(word));
-                }
 
                 Console.WriteLine();
             } while (AnotherLine());
@@ -77,18 +55,13 @@ namespace DB4_PigLatin
             Console.Write("Translate another line? (y/n): ");
             ConsoleKey choice = Console.ReadKey().Key;
             Console.WriteLine();
+            
             if(choice == ConsoleKey.Y)
-            {
                 return true;
-            }
             else if (choice == ConsoleKey.N)
-            {
                 return false;
-            }
             else
-            {
                 return AnotherLine();
-            }
         }
 
         private string ConvertLine(string paragraph)
@@ -103,25 +76,19 @@ namespace DB4_PigLatin
             return pigLatin.ToString();
         }
 
-
-
         private string ConvertWord(string word)
         {
             //Check to make sure we are only trying to convert words
             //do not convert null or empty strings
             if(word == null || word.Trim() == "")
-            {
                 return "";
-            }
 
             //Check cases for words to not convert
             //currently this is words that include the Non-Convert symbols
             foreach(char letter in word)
             {
                 if(notConverting.Contains(letter))
-                {
                     return word;
-                }
             }
 
             string converted;
@@ -134,9 +101,7 @@ namespace DB4_PigLatin
                 converted = Convert(letters) + word[word.Length-1];
             }
             else
-            {
                 converted = Convert(letters);
-            }
 
             return MakeCase(converted, wordCase);
         }
@@ -152,9 +117,8 @@ namespace DB4_PigLatin
             if (vowels.Contains(letters[0]))
             {
                 foreach(char letter in letters)
-                {
                     word.Append(letter);
-                }
+
                 trimmed = word.ToString().Trim();
                 return trimmed + "way";
             }
@@ -165,9 +129,7 @@ namespace DB4_PigLatin
                 {
                     //found a vowel, exit the loop
                     if (vowels.Contains(letters[index]))
-                    {
                         break;
-                    }
                     else
                     {
                         //not a vowel, add it to the end, and replace with a space at the beginning.
@@ -178,9 +140,7 @@ namespace DB4_PigLatin
 
                 //get all the letters from the first vowel to the end of the word.
                 foreach (char letter in letters)
-                {
                     word.Append(letter);
-                }
 
                 //take out any additional spaces as a result of the logic
                 trimmed = word.ToString().Trim();
@@ -189,9 +149,7 @@ namespace DB4_PigLatin
 
                 //add in all of the letters that were moved to the end.
                 while (addToEnd.TryDequeue(out char letter))
-                {
                     word.Append(letter);
-                }
 
                 //take out any additional spaces as a result of the logic
                 trimmed = word.ToString().Trim();
@@ -202,51 +160,38 @@ namespace DB4_PigLatin
         private Case CheckCase(string word)
         {
             char[] letters = word.ToCharArray();
-            
-            //booleans to keep track of the word.
-            bool allUpper = true;
-            bool allLower = true;
-            bool titleCase = true;
+
+            //booleans to keep track of the words case, starting out true.
+            bool allUpper, allLower, titleCase;
+            allUpper = allLower = titleCase = true;
 
             for(int index = 0; index < letters.Length; index++)
             {
                 if(char.IsLower(letters[index]))
-                {
                     allUpper = false;
-                }
 
                 if (char.IsUpper(letters[index]))
-                {
                     allLower = false;
-                }
 
                 if (index == 0 && char.IsLower(letters[index]))
-                {
-                    titleCase = false;
-                }
+                    titleCase = false; //if first letter is lower case it is not title case
+
                 if(index > 0 && char.IsUpper(letters[index]))
-                {
-                    titleCase = false;
-                }
+                    titleCase = false; //if any letter after the first is upper case it is not title case
             }
 
-            //It's a mixed case word, with no clear indication, return mixed
+            //It's a mixed case word, return that, otherwise check title case
+            //so that single letter uppercase words are returned in title case
+            //then check other cases
             if(!titleCase && !allUpper && !allLower)
-            {
                 return Case.Mixed;
-            }
 
-            //If it is a title case word return that
             if (titleCase)
-            {
                 return Case.Title;
-            }
 
             if (allUpper)
-            {
                 return Case.Upper;
-            }
-            //if it is not upper, title, or mixed case it must be lower
+
             return Case.Lower;
         }
 
@@ -280,39 +225,21 @@ namespace DB4_PigLatin
         private bool IsSentenceEnd(string word)
         {
             if(char.IsPunctuation(word[word.Length - 1]))
-            {
                 return true;
-            }
             else
-            {
                 return false;
-            }
-        }
-
-        private bool IsFileAddress(string fileName)
-        {
-            return File.Exists(fileName);
         }
 
         private void DisplayFile(string fileName)
         {
             StreamReader file = new StreamReader(fileName);
-
-            //determine if a file already exists with the new extension
-            //set it to append so that any contents are not destroyed with this call
-            bool outFileExists = File.Exists(fileName + "_pl.txt");
-            StreamWriter outFile = new StreamWriter(fileName + "_pl.txt", true);
+            StreamWriter outFile = new StreamWriter(fileName + "_pl.txt", false);
 
             while(!file.EndOfStream)
             {
                 string line = ConvertLine(file.ReadLine());
                 Console.WriteLine(line);
-
-                //only write to the new file if it didn't already exist
-                if (!outFileExists)
-                {
-                    outFile.WriteLine(line);
-                }
+                outFile.WriteLine(line);
             }
 
             file.Close();
