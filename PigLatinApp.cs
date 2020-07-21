@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading;
 
 namespace DB4_PigLatin
 {
     public class PigLatinApp
     {
         private readonly List<char> vowels, notConverting;
+        private static Mutex resource = new Mutex();
+
         private enum Case
         {
             Title,
@@ -29,6 +32,11 @@ namespace DB4_PigLatin
                 '@', '$', '#', '{', '}',
                 '_', '=', '+', '(', ')'
             };
+        }
+
+        ~PigLatinApp()
+        {
+
         }
 
         public void Start()
@@ -232,6 +240,8 @@ namespace DB4_PigLatin
 
         private void DisplayFile(string fileName)
         {
+            resource.WaitOne(); //wait to make sure the only thread accessing the file.
+
             StreamReader file = new StreamReader(fileName);
             Directory.CreateDirectory(@"C:\devbuild4\logs\");
             StreamWriter outFile = new StreamWriter(@"C:\devbuild4\logs\pl_log.txt", false);
@@ -245,6 +255,7 @@ namespace DB4_PigLatin
 
             file.Close();
             outFile.Close();
+            resource.ReleaseMutex(); //release access to the file
         }
     }
 }
