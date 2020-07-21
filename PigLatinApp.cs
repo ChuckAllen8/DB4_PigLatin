@@ -224,7 +224,7 @@ namespace DB4_PigLatin
 
         private bool IsSentenceEnd(string word)
         {
-            if(char.IsPunctuation(word[word.Length - 1]) && !(word[word.Length - 1] == '\''))
+            if(char.IsPunctuation(word[^1]) && !(word[^1] == '\'')) //^1 is the last index
                 return true;
             else
                 return false;
@@ -233,7 +233,8 @@ namespace DB4_PigLatin
         private void DisplayFile(string fileName)
         {
             StreamReader file = new StreamReader(fileName);
-            StreamWriter outFile = new StreamWriter(fileName + "_pl.txt", false);
+            Directory.CreateDirectory(@"C:\devbuild4\logs\");
+            StreamWriter outFile = new StreamWriter(@"C:\devbuild4\logs\pl_log.txt", false);
 
             while(!file.EndOfStream)
             {
