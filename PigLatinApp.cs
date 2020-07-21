@@ -65,7 +65,7 @@ namespace DB4_PigLatin
                 }
                 else
                 {
-                    Console.WriteLine(ConvertParagraph(word));
+                    Console.WriteLine(ConvertLine(word));
                 }
 
                 Console.WriteLine();
@@ -91,7 +91,7 @@ namespace DB4_PigLatin
             }
         }
 
-        private string ConvertParagraph(string paragraph)
+        private string ConvertLine(string paragraph)
         {
             string[] words = paragraph.Split(" ");
             StringBuilder pigLatin = new StringBuilder();
@@ -300,7 +300,7 @@ namespace DB4_PigLatin
 
             while(!file.EndOfStream)
             {
-                Console.WriteLine(ConvertParagraph(file.ReadLine()));
+                Console.WriteLine(ConvertLine(file.ReadLine()));
             }
 
             file.Close();
