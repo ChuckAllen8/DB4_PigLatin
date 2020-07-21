@@ -298,12 +298,25 @@ namespace DB4_PigLatin
         {
             StreamReader file = new StreamReader(fileName);
 
+            //determine if a file already exists with the new extension
+            //set it to append so that any contents are not destroyed with this call
+            bool outFileExists = File.Exists(fileName + "_pl.txt");
+            StreamWriter outFile = new StreamWriter(fileName + "_pl.txt", true);
+
             while(!file.EndOfStream)
             {
-                Console.WriteLine(ConvertLine(file.ReadLine()));
+                string line = ConvertLine(file.ReadLine());
+                Console.WriteLine(line);
+
+                //only write to the new file if it didn't already exist
+                if (!outFileExists)
+                {
+                    outFile.WriteLine(line);
+                }
             }
 
             file.Close();
+            outFile.Close();
         }
     }
 }
