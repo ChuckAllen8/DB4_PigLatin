@@ -224,7 +224,7 @@ namespace DB4_PigLatin
 
         private bool IsSentenceEnd(string word)
         {
-            if(char.IsPunctuation(word[word.Length - 1]))
+            if(char.IsPunctuation(word[word.Length - 1]) && !(word[word.Length - 1] == '\''))
                 return true;
             else
                 return false;
