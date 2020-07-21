@@ -38,15 +38,23 @@ namespace DB4_PigLatin
             {
                 '@',
                 '$',
-                '#'
+                '#',
+                '{',
+                '}',
+                '_',
+                '=',
+                '+',
+                '(',
+                ')'
             };
         }
 
         public void Start()
         {
-            Console.WriteLine("Welcome to the Pig Latin Translator!");
             do
             {
+                Console.Clear();
+                Console.WriteLine("Welcome to the Pig Latin Translator!");
                 Console.Write("Enter a line to be translated, or a file-path to display: ");
                 string word = Console.ReadLine();
                 Console.WriteLine();
