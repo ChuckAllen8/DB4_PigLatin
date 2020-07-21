@@ -1,0 +1,13 @@
+C:\devbuild4\DB4_PigLatin\bin\Debug\netcoreapp3.1\DB4_PigLatin.exe
+C:\devbuild4\DB4_PigLatin\bin\Debug\netcoreapp3.1\DB4_PigLatin.deps.json
+C:\devbuild4\DB4_PigLatin\bin\Debug\netcoreapp3.1\DB4_PigLatin.runtimeconfig.json
+C:\devbuild4\DB4_PigLatin\bin\Debug\netcoreapp3.1\DB4_PigLatin.runtimeconfig.dev.json
+C:\devbuild4\DB4_PigLatin\bin\Debug\netcoreapp3.1\DB4_PigLatin.dll
+C:\devbuild4\DB4_PigLatin\bin\Debug\netcoreapp3.1\DB4_PigLatin.pdb
+C:\devbuild4\DB4_PigLatin\obj\Debug\netcoreapp3.1\DB4_PigLatin.csprojAssemblyReference.cache
+C:\devbuild4\DB4_PigLatin\obj\Debug\netcoreapp3.1\DB4_PigLatin.AssemblyInfoInputs.cache
+C:\devbuild4\DB4_PigLatin\obj\Debug\netcoreapp3.1\DB4_PigLatin.AssemblyInfo.cs
+C:\devbuild4\DB4_PigLatin\obj\Debug\netcoreapp3.1\DB4_PigLatin.csproj.CoreCompileInputs.cache
+C:\devbuild4\DB4_PigLatin\obj\Debug\netcoreapp3.1\DB4_PigLatin.dll
+C:\devbuild4\DB4_PigLatin\obj\Debug\netcoreapp3.1\DB4_PigLatin.pdb
+C:\devbuild4\DB4_PigLatin\obj\Debug\netcoreapp3.1\DB4_PigLatin.genruntimeconfig.cache
