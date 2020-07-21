@@ -244,7 +244,10 @@ namespace DB4_PigLatin
 
             StreamReader file = new StreamReader(fileName);
             Directory.CreateDirectory(@"C:\devbuild4\logs\");
-            StreamWriter outFile = new StreamWriter(@"C:\devbuild4\logs\pl_log.txt", false);
+            string logFileName = @"C:\devbuild4\logs\pl_log_" + (DateTime.Now).ToString().Replace('/', '_').Replace(':', '_') + ".txt";
+            StreamWriter outFile = new StreamWriter(logFileName, false);
+
+            outFile.WriteLine($"Converted: {fileName} to pig latin:\n");
 
             while(!file.EndOfStream)
             {
