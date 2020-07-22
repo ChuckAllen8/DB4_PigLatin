@@ -38,7 +38,7 @@ namespace DB4_PigLatin
 
         ~PigLatinApp()
         {
-
+            resource.Dispose();
         }
 
         public void Start()
